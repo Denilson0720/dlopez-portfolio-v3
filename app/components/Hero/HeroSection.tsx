@@ -50,9 +50,14 @@ export default function HeroSection() {
         transition={{ delay: 1, repeat: Infinity, repeatType: "reverse" }}
         className="absolute bottom-8 right-8 z-20"
       >
-        <Link
-          href="/portfolio"
-          className="flex flex-col items-center text-white hover:text-gray-300 transition-colors"
+        <button
+          onClick={() => {
+            const portfolioSection = document.getElementById("about");
+            if (portfolioSection) {
+              portfolioSection.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
+          }}
+          className="flex flex-col items-center text-white hover:text-gray-300 transition-colors cursor-pointer"
         >
           <span className="text-sm mb-2">Explore</span>
           <svg
@@ -69,7 +74,7 @@ export default function HeroSection() {
               d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3"
             />
           </svg>
-        </Link>
+        </button>
       </motion.div>
     </div>
   );

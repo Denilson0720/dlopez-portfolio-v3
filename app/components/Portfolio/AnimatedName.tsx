@@ -1,35 +1,37 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function AnimatedName() {
   const [scrollProgress, setScrollProgress] = useState(0);
-  const contentAreaRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
-    // Find the content area element
-    const contentArea = document.querySelector('[data-content-area]') as HTMLElement;
-    if (contentArea) {
-      contentAreaRef.current = contentArea;
+    const handleScroll = () => {
+      // Calculate scroll progress from hero section
+      // Hero is 100vh, start animation when entering portfolio section
+      const scrollY = window.scrollY;
+      const heroHeight = window.innerHeight;
+      const portfolioStart = heroHeight * 0.8;
+      const animationRange = 300; // pixels over which to animate
+      
+      if (scrollY < portfolioStart) {
+        setScrollProgress(0);
+      } else {
+        const progress = Math.min((scrollY - portfolioStart) / animationRange, 1);
+        setScrollProgress(progress);
+      }
+    };
 
-      const handleScroll = () => {
-        if (contentArea) {
-          const scrollTop = contentArea.scrollTop;
-          const maxScroll = contentArea.scrollHeight - contentArea.clientHeight;
-          const progress = Math.min(scrollTop / 500, 1); // Normalize to 0-1 over first 500px
-          setScrollProgress(progress);
-        }
-      };
+    window.addEventListener("scroll", handleScroll);
+    handleScroll(); // Check initial state
 
-      contentArea.addEventListener('scroll', handleScroll);
-      return () => contentArea.removeEventListener('scroll', handleScroll);
-    }
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const x = scrollProgress * -100; // Move left as scroll increases
-  const scale = 1 - scrollProgress * 0.1; // Slight scale down
-  const opacity = 1 - scrollProgress * 0.1; // Slight fade
+  const x = -100 + (scrollProgress * 100); // Move from left (-100) to center (0) as scroll increases
+  const scale = 0.9 + scrollProgress * 0.1; // Scale up from 0.9 to 1.0
+  const opacity = 0.9 + scrollProgress * 0.1; // Fade in from 0.9 to 1.0
 
   return (
     <motion.div
@@ -37,9 +39,8 @@ export default function AnimatedName() {
         x,
         scale,
         opacity,
-        transition: 'transform 0.1s ease-out, opacity 0.1s ease-out, scale 0.1s ease-out'
       }}
-      className="mb-12"
+      className="mb-12 transition-all duration-300 ease-out"
     >
       <h1 className="text-3xl font-bold text-white">Denilson Lopez</h1>
     </motion.div>

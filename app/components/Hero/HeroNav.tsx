@@ -4,21 +4,28 @@ import Link from "next/link";
 import ThemeToggle from "../UI/ThemeToggle";
 
 export default function HeroNav() {
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
   return (
     <nav className="absolute top-8 left-8 right-8 flex justify-between items-center z-20">
       <div className="flex gap-8 text-white">
-        <Link
-          href="/portfolio#projects"
+        <button
+          onClick={() => scrollToSection("projects")}
           className="hover:text-gray-300 transition-colors"
         >
           Projects
-        </Link>
-        <Link
-          href="/portfolio#contact"
+        </button>
+        <button
+          onClick={() => scrollToSection("contact")}
           className="hover:text-gray-300 transition-colors"
         >
           Contact
-        </Link>
+        </button>
         <Link
           href="/blog"
           className="hover:text-gray-300 transition-colors"

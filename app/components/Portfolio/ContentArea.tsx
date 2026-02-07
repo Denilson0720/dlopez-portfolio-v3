@@ -5,15 +5,21 @@ import WorkExperienceSection from "../Sections/WorkExperienceSection";
 import ProjectsSection from "../Sections/ProjectsSection";
 import ContactSection from "../Sections/ContactSection";
 
-export default function ContentArea() {
+interface ContentAreaProps {
+  showSidebar: boolean;
+}
+
+export default function ContentArea({ showSidebar }: ContentAreaProps) {
   return (
     <>
       {/* Desktop Content Area */}
       <div 
         data-content-area
-        className="flex-1 ml-64 overflow-y-auto hidden md:block"
+        className={`transition-all duration-500 ${
+          showSidebar ? "md:ml-64" : "md:ml-0"
+        }`}
       >
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-6xl mx-auto px-8 py-20">
           <AboutSection />
           <WorkExperienceSection />
           <ProjectsSection />
@@ -22,8 +28,8 @@ export default function ContentArea() {
       </div>
 
       {/* Mobile Content Area */}
-      <div className="md:hidden mt-16 overflow-y-auto">
-        <div className="max-w-6xl mx-auto px-4">
+      <div className="md:hidden mt-16">
+        <div className="max-w-6xl mx-auto px-4 py-20">
           <AboutSection />
           <WorkExperienceSection />
           <ProjectsSection />

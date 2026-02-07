@@ -3,7 +3,7 @@ export default function ContactSection() {
     <section
       id="contact"
       data-section="contact"
-      className="min-h-screen py-20 px-8"
+      className="min-h-screen py-20 px-8 scroll-mt-20"
     >
       <h2 className="text-5xl font-bold mb-12 text-white">Contact</h2>
       <div className="max-w-4xl">

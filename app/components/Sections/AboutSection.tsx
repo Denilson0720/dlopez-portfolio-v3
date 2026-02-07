@@ -6,7 +6,7 @@ export default function AboutSection() {
     <section
       id="about"
       data-section="about"
-      className="min-h-screen py-20 px-8"
+      className="min-h-screen py-20 px-8 scroll-mt-20"
     >
       <h2 className="text-5xl font-bold mb-12 text-white">About Me</h2>
       <div className="max-w-4xl space-y-6 mb-12">
