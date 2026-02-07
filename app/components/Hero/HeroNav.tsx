@@ -16,19 +16,19 @@ export default function HeroNav() {
       <div className="flex gap-8 text-white">
         <button
           onClick={() => scrollToSection("projects")}
-          className="hover:text-gray-300 transition-colors"
+          className="hover:text-gray-300 dark:hover:text-gray-300 transition-colors"
         >
           Projects
         </button>
         <button
           onClick={() => scrollToSection("contact")}
-          className="hover:text-gray-300 transition-colors"
+          className="hover:text-gray-300 dark:hover:text-gray-300 transition-colors"
         >
           Contact
         </button>
         <Link
           href="/blog"
-          className="hover:text-gray-300 transition-colors"
+          className="hover:text-gray-300 dark:hover:text-gray-300 transition-colors"
         >
           Blog
         </Link>

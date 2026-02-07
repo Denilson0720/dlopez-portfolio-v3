@@ -5,9 +5,9 @@ export default function ProjectsSection() {
       data-section="projects"
       className="min-h-screen py-20 px-8 scroll-mt-20"
     >
-      <h2 className="text-5xl font-bold mb-12 text-white">Projects</h2>
+      <h2 className="text-5xl font-bold mb-12 text-black dark:text-white">Projects</h2>
       <div className="max-w-4xl">
-        <p className="text-gray-400 text-lg">
+        <p className="text-gray-600 dark:text-gray-400 text-lg">
           Projects section coming soon. Check back later for my latest work!
         </p>
       </div>

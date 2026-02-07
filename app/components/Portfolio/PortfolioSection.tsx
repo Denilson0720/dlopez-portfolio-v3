@@ -27,7 +27,7 @@ export default function PortfolioSection() {
   };
 
   return (
-    <div className="relative min-h-screen bg-black text-white">
+    <div className="relative min-h-screen bg-white dark:bg-black text-black dark:text-white">
       {/* Sidebar - appears when scrolling past hero */}
       <div
         className={`transition-opacity duration-500 ${

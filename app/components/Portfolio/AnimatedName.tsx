@@ -42,7 +42,7 @@ export default function AnimatedName() {
       }}
       className="mb-12 transition-all duration-300 ease-out"
     >
-      <h1 className="text-3xl font-bold text-white">Denilson Lopez</h1>
+      <h1 className="text-3xl font-bold text-black dark:text-white">Denilson Lopez</h1>
     </motion.div>
   );
 }

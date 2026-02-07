@@ -5,9 +5,9 @@ export default function ContactSection() {
       data-section="contact"
       className="min-h-screen py-20 px-8 scroll-mt-20"
     >
-      <h2 className="text-5xl font-bold mb-12 text-white">Contact</h2>
+      <h2 className="text-5xl font-bold mb-12 text-black dark:text-white">Contact</h2>
       <div className="max-w-4xl">
-        <p className="text-gray-400 text-lg mb-8">
+        <p className="text-gray-600 dark:text-gray-400 text-lg mb-8">
           Feel free to reach out if you'd like to collaborate or just say hello!
         </p>
         <div className="space-y-4">
@@ -22,7 +22,7 @@ export default function ContactSection() {
               href="https://github.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-400 hover:text-white transition-colors"
+              className="text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors"
             >
               GitHub
             </a>
@@ -30,7 +30,7 @@ export default function ContactSection() {
               href="https://linkedin.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-400 hover:text-white transition-colors"
+              className="text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors"
             >
               LinkedIn
             </a>
@@ -38,7 +38,7 @@ export default function ContactSection() {
               href="https://twitter.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-400 hover:text-white transition-colors"
+              className="text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors"
             >
               Twitter
             </a>
