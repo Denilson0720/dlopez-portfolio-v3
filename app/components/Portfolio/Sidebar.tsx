@@ -10,6 +10,7 @@ interface SidebarProps {
 
 const sections: { id: Section; label: string }[] = [
   { id: "about", label: "About" },
+  { id: "skills", label: "Skills" },
   { id: "work", label: "Work Exp." },
   { id: "projects", label: "Projects" },
   { id: "contact", label: "Contact" },

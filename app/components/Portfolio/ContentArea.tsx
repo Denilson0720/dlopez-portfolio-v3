@@ -1,6 +1,7 @@
 "use client";
 
 import AboutSection from "../Sections/AboutSection";
+import SkillsSection from "../Sections/SkillsSection";
 import WorkExperienceSection from "../Sections/WorkExperienceSection";
 import ProjectsSection from "../Sections/ProjectsSection";
 import ContactSection from "../Sections/ContactSection";
@@ -21,6 +22,7 @@ export default function ContentArea({ showSidebar }: ContentAreaProps) {
       >
         <div className="max-w-6xl mx-auto px-8 py-20">
           <AboutSection />
+          <SkillsSection />
           <WorkExperienceSection />
           <ProjectsSection />
           <ContactSection />
@@ -31,6 +33,7 @@ export default function ContentArea({ showSidebar }: ContentAreaProps) {
       <div className="md:hidden mt-16">
         <div className="max-w-6xl mx-auto px-4 py-20">
           <AboutSection />
+          <SkillsSection />
           <WorkExperienceSection />
           <ProjectsSection />
           <ContactSection />

@@ -1,4 +1,5 @@
 export interface WorkExperience {
+  id: string;
   title: string;
   company: string;
   dateRange: string;
@@ -11,6 +12,7 @@ export interface SkillCategory {
 }
 
 export interface Project {
+  id: string;
   title: string;
   description: string;
   technologies: string[];
@@ -18,5 +20,5 @@ export interface Project {
   github?: string;
 }
 
-export type Section = "about" | "work" | "projects" | "contact";
+export type Section = "about" | "skills" | "work" | "projects" | "contact";
 

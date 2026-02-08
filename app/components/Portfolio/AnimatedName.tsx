@@ -33,6 +33,10 @@ export default function AnimatedName() {
   const scale = 0.9 + scrollProgress * 0.1; // Scale up from 0.9 to 1.0
   const opacity = 0.9 + scrollProgress * 0.1; // Fade in from 0.9 to 1.0
 
+  const handleClick = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
     <motion.div
       style={{
@@ -42,7 +46,12 @@ export default function AnimatedName() {
       }}
       className="mb-12 transition-all duration-300 ease-out"
     >
-      <h1 className="text-3xl font-bold text-black dark:text-white">Denilson Lopez</h1>
+      <h1 
+        onClick={handleClick}
+        className="text-3xl font-bold text-black dark:text-white cursor-pointer hover:opacity-80 transition-opacity"
+      >
+        Denilson Lopez
+      </h1>
     </motion.div>
   );
 }

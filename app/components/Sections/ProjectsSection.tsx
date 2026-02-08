@@ -1,3 +1,6 @@
+import { projects } from "@/app/data";
+import ProjectCard from "../UI/ProjectCard";
+
 export default function ProjectsSection() {
   return (
     <section
@@ -7,9 +10,9 @@ export default function ProjectsSection() {
     >
       <h2 className="text-5xl font-bold mb-12 text-black dark:text-white">Projects</h2>
       <div className="max-w-4xl">
-        <p className="text-gray-600 dark:text-gray-400 text-lg">
-          Projects section coming soon. Check back later for my latest work!
-        </p>
+        {projects.map((project) => (
+          <ProjectCard key={project.id} project={project} />
+        ))}
       </div>
     </section>
   );
