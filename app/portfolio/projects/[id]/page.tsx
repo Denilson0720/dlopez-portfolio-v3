@@ -16,7 +16,7 @@ export default function ProjectPage({ params }: { params: { id: string } }) {
     <div className="min-h-screen bg-white dark:bg-black py-20 px-8">
       <div className="max-w-4xl mx-auto">
         <Link
-          href="/"
+          href="/#projects"
           className="text-accent-blue hover:underline mb-8 inline-block"
         >
           ← Back to Portfolio
