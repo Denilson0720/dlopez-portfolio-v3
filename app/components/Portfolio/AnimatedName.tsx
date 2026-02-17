@@ -13,7 +13,7 @@ export default function AnimatedName() {
       const scrollY = window.scrollY;
       const heroHeight = window.innerHeight;
       const portfolioStart = heroHeight * 0.8;
-      const animationRange = 300; // pixels over which to animate
+      const animationRange = 50; // pixels over which to animate
       
       if (scrollY < portfolioStart) {
         setScrollProgress(0);
