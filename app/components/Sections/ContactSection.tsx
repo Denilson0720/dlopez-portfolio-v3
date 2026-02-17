@@ -40,10 +40,6 @@ export default function ContactSection() {
     };
   }, []);
 
-  const handleAutoComplete = () => {
-    setMessage("Hello Denilson,\n\nI'd like to get in touch with you regarding ");
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -176,13 +172,6 @@ export default function ContactSection() {
               >
                 Message
               </label>
-              <button
-                type="button"
-                onClick={handleAutoComplete}
-                className="text-sm text-accent-blue hover:text-accent-blue/80 transition-colors"
-              >
-                ✨ Auto Complete Message
-              </button>
             </div>
             <textarea
               id="message"
