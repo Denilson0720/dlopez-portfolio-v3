@@ -2,80 +2,72 @@ import { WorkExperience, SkillCategory, Project } from "@/types";
 
 export const workExperience: WorkExperience[] = [
   {
-    id: "tech-innovations",
-    title: "Senior Software Engineer",
-    company: "Tech Innovations Inc.",
-    dateRange: "2022 - Present",
+    id: "trust-and-will",
+    title: "Software Engineer – Full Stack (Professionals Expansion)",
+    company: "Trust & Will (Remote)",
+    dateRange: "Jun 2025 – Present",
     description:
-      "Leading development of scalable web applications using React and Node.js. Mentoring junior developers and implementing best practices.",
+      "Driving the Professionals Direct-to-Attorney (D2A) MVP delivery alongside engineering leadership, leading technical implementation of the attorney dashboard and client lifecycle management. Engineered a multi-tier SaaS subscription system (Essentials, Premium, Enterprise) with Stripe-based billing and real-time feature gating. Architected a GDPR-compliant donor data unanonymization system with tiered privacy access controls across 15+ database tables. Resolved critical N+1 query bottlenecks for high-profile partners, reducing page load times from 8s to under 1s. Managed phased rollouts via LaunchDarkly across 12 frontend routes and built an end-to-end donation notification platform using REST APIs and AWS SNS.",
   },
   {
-    id: "digital-solutions",
-    title: "Full Stack Developer",
-    company: "Digital Solutions LLC",
-    dateRange: "2020 - 2022",
+    id: "codepath",
+    title: "Tech Fellow",
+    company: "CodePath (Remote)",
+    dateRange: "Jun 2024 – Present",
     description:
-      "Developed and maintained multiple client projects, working with modern frameworks and cloud technologies.",
+      "Mentoring national cohorts of 300+ university students in data structures and algorithms. Leading live coding sessions and conducting mock technical interviews to prepare candidates for high-growth tech roles.",
   },
   {
-    id: "startupxyz",
-    title: "Frontend Developer",
-    company: "StartupXYZ",
-    dateRange: "2018 - 2020",
+    id: "hack-diversity",
+    title: "Software Engineer Fellow",
+    company: "Hack.Diversity (NYC)",
+    dateRange: "Jan 2025 – Aug 2025",
     description:
-      "Built responsive user interfaces and collaborated with design teams to create engaging user experiences.",
+      "Partnered with industry mentors to refine architectural decision-making, focusing on high-availability patterns, scalable system design, and modern TypeScript implementation within enterprise production contexts.",
+  },
+  {
+    id: "njcu-research",
+    title: "Deep Learning Research Intern",
+    company: "New Jersey City University (Jersey City, NJ)",
+    dateRange: "May 2022 – Jul 2022",
+    description:
+      "Trained and deployed Reinforcement Learning models on AWS DeepRacer, utilizing AWS SageMaker for cloud-based distributed training and simulation environments. Improved lap times by 30% through advanced hyperparameter optimization and custom Python reward functions tailored to autonomous track challenges.",
   },
 ];
 
 export const skills: SkillCategory[] = [
   {
     title: "Languages",
-    skills: ["TypeScript", "JavaScript", "Java", "Python", "SQL", "NoSQL"],
+    skills: ["TypeScript", "JavaScript", "Python", "Java", "SQL (PostgreSQL, MySQL)", "NoSQL (MongoDB)"],
   },
   {
     title: "Frameworks & Libraries",
-    skills: ["Node.js", "Express.js", "React", "Next.js", "TailwindCSS", "Bootstrap", "Sequelize", "Jest", "Mocha", "Playwright"],
+    skills: ["React", "Next.js", "Node.js", "Express", "React Query", "TailwindCSS", "Zod"],
   },
   {
-    title: "Backend & Cloud",
-    skills: ["REST", "AWS SNS", "Serverless Architecture", "Stripe API", "PostgreSQL", "MongoDB", "MySQL"],
+    title: "Cloud & DevOps",
+    skills: ["AWS (SNS, SageMaker, CodePipeline)", "Redis", "Docker", "CI/CD", "Git"],
   },
   {
-    title: "Tools",
-    skills: ["Git", "GitHub", "VS Code", "Vercel", "Netlify", "Figma", "Postman"],
+    title: "Testing & Tooling",
+    skills: ["Jest", "Mocha", "Playwright", "Stripe API", "LaunchDarkly", "DataDog", "FullStory", "REST APIs"],
   },
 ];
 
 export const aboutText = [
-  "Hello! I'm a passionate developer with a love for creating beautiful and functional web experiences. I specialize in modern web technologies and enjoy turning complex problems into simple, elegant solutions.",
-  "With years of experience in software development, I've worked on various projects ranging from small startups to large-scale enterprise applications. My expertise includes frontend and backend development, UI/UX design, and cloud infrastructure.",
-  "When I'm not coding, you can find me exploring new technologies, contributing to open-source projects, or sharing knowledge with the developer community. I believe in continuous learning and staying up-to-date with the latest industry trends.",
+  "Hi, I'm Denilson — a full stack software engineer based in the NYC area. I build scalable web applications with a focus on clean architecture, performance, and developer experience. I currently work at Trust & Will, where I ship features across complex SaaS and nonprofit platforms.",
+  "I studied Computer Science at New Jersey City University (B.S., 2023, GPA 3.7) and have since worked across the full stack — from architecting GDPR-compliant data systems and Stripe billing infrastructure to resolving critical N+1 query bottlenecks in production. I care deeply about writing code that works well at scale.",
+  "Outside of my day-to-day engineering work, I mentor 300+ university students at CodePath in data structures, algorithms, and technical interview preparation. I'm always learning, always building.",
 ];
 
 export const projects: Project[] = [
   {
-    id: "project-1",
-    title: "E-Commerce Platform",
-    description: "A full-stack e-commerce platform built with React and Node.js, featuring user authentication, payment processing, and inventory management.",
-    technologies: ["React", "Node.js", "PostgreSQL", "Stripe API", "Express.js"],
-    link: "https://example.com",
-    github: "https://github.com/example",
-  },
-  {
-    id: "project-2",
-    title: "Task Management App",
-    description: "A collaborative task management application with real-time updates, built using Next.js and WebSockets.",
-    technologies: ["Next.js", "TypeScript", "WebSockets", "MongoDB", "TailwindCSS"],
-    link: "https://example.com",
-    github: "https://github.com/example",
-  },
-  {
-    id: "project-3",
-    title: "Weather Dashboard",
-    description: "A responsive weather dashboard that displays current conditions and forecasts using external APIs.",
-    technologies: ["React", "JavaScript", "REST APIs", "CSS"],
-    link: "https://example.com",
-    github: "https://github.com/example",
+    id: "kloth",
+    title: "Kloth",
+    description:
+      "A type-safe e-commerce engine built with Next.js and PostgreSQL. Implemented dynamic server-side routing and Zod schema validation to ensure data integrity across client-server boundaries. Architected robust API routes for variant-specific product fetching with strict TypeScript interface definitions.",
+    technologies: ["Next.js", "TypeScript", "PostgreSQL", "TailwindCSS", "Zod"],
+    github: "https://github.com/Denilson0720",
   },
 ];
 
