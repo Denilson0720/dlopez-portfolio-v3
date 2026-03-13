@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Section } from "@/types";
 import { useActiveSection } from "@/lib/hooks/useActiveSection";
 import AnimatedName from "./AnimatedName";
@@ -46,6 +47,12 @@ export default function Sidebar({ onSectionClick }: SidebarProps) {
               {section.label}
             </button>
           ))}
+          <Link
+            href="/blog"
+            className="text-gray-600 dark:text-gray-500 text-lg hover:text-gray-800 dark:hover:text-gray-300 transition-all duration-300 text-left"
+          >
+            Blog
+          </Link>
         </nav>
         <div className="mt-auto mb-4">
           <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-800 flex items-center justify-center border border-gray-300 dark:border-gray-700">
@@ -72,6 +79,12 @@ export default function Sidebar({ onSectionClick }: SidebarProps) {
                 {section.label}
               </button>
             ))}
+            <Link
+              href="/blog"
+              className="text-sm text-gray-600 dark:text-gray-500 hover:text-gray-800 dark:hover:text-gray-300 transition-all"
+            >
+              Blog
+            </Link>
           </nav>
         </div>
       </div>
