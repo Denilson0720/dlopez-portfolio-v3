@@ -1,7 +1,6 @@
 import { getPinnedPosts, getPublishedPosts } from '@/lib/blog/queries'
 import type { Post } from '@/lib/blog/types'
-import PinnedPosts from '@/components/blog/PinnedPosts'
-import PostList from '@/components/blog/PostList'
+import BlogContent from '@/components/blog/BlogContent'
 
 // ISR — revalidated on-demand by Route Handlers (publish/pin/delete)
 export const revalidate = false
@@ -26,8 +25,7 @@ export default async function BlogPage() {
   return (
     <main className="min-h-screen bg-black text-white px-8 py-16 max-w-5xl mx-auto">
       <h1 className="text-5xl font-bold mb-12">Blog</h1>
-      <PinnedPosts posts={pinnedPosts} />
-      <PostList posts={posts} />
+      <BlogContent pinnedPosts={pinnedPosts} posts={posts} />
     </main>
   )
 }
