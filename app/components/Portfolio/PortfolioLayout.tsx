@@ -12,7 +12,7 @@ export default function PortfolioLayout() {
   return (
     <div className="flex h-screen bg-black text-white overflow-hidden">
       <Sidebar onSectionClick={handleSectionClick} />
-      <ContentArea />
+      <ContentArea showSidebar={true} />
     </div>
   );
 }
