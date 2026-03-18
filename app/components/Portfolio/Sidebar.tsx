@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useAuth } from "@clerk/nextjs";
 import { Section } from "@/types";
 import { useActiveSection } from "@/lib/hooks/useActiveSection";
 import AnimatedName from "./AnimatedName";
@@ -19,6 +20,7 @@ const sections: { id: Section; label: string }[] = [
 
 export default function Sidebar({ onSectionClick }: SidebarProps) {
   const activeSection = useActiveSection();
+  const { userId } = useAuth();
 
   const handleClick = (section: Section) => {
     onSectionClick(section);
@@ -53,6 +55,14 @@ export default function Sidebar({ onSectionClick }: SidebarProps) {
           >
             Blog
           </Link>
+          {userId && (
+            <Link
+              href="/blog/admin"
+              className="text-gray-600 dark:text-gray-500 text-lg hover:text-gray-800 dark:hover:text-gray-300 transition-all duration-300 text-left"
+            >
+              Admin
+            </Link>
+          )}
         </nav>
         <div className="mt-auto mb-4">
           <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-800 flex items-center justify-center border border-gray-300 dark:border-gray-700">
@@ -85,6 +95,14 @@ export default function Sidebar({ onSectionClick }: SidebarProps) {
             >
               Blog
             </Link>
+            {userId && (
+              <Link
+                href="/blog/admin"
+                className="text-sm text-gray-600 dark:text-gray-500 hover:text-gray-800 dark:hover:text-gray-300 transition-all"
+              >
+                Admin
+              </Link>
+            )}
           </nav>
         </div>
       </div>

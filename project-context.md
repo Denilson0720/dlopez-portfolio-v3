@@ -372,6 +372,24 @@ Mirror `app/` and `lib/` structure. Files: `*.test.ts` / `*.test.tsx`.
 
 ---
 
+## Git Workflow
+
+Every story follows this exact flow:
+
+1. **Branch** — create from `master` before starting implementation:
+   ```
+   git checkout -b feature/str-{epic}-{story}/{brief-description}
+   ```
+   Example: `feature/str-1-3/category-filter`
+
+2. **Implement** — all commits go on the feature branch
+
+3. **PR** — open a pull request to `master` when story status reaches `review`
+
+**Branch naming:** `feature/str-{epic}-{story}/{brief-description}` — lowercase, hyphens only, no spaces.
+
+---
+
 ## Implementation Order
 
 1. `supabase/migrations/0001_create_posts.sql` — schema first
