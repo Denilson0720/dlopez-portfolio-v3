@@ -120,3 +120,9 @@ export async function togglePin(id: string, currentPinned: boolean): Promise<Pos
   if (error || !data) throw new Error(error?.message ?? 'Pin update failed')
   return toPost(data)
 }
+
+export async function deletePost(id: string): Promise<void> {
+  const supabase = await createClient()
+  const { error } = await supabase.from('posts').delete().eq('id', id)
+  if (error) throw new Error(error.message)
+}

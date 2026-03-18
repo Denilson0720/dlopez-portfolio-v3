@@ -1,6 +1,8 @@
 import { auth } from '@clerk/nextjs/server'
 import { NextResponse } from 'next/server'
-import { updatePost } from '@/lib/blog/mutations'
+import { revalidatePath } from 'next/cache'
+import { updatePost, deletePost } from '@/lib/blog/mutations'
+import { getPostById } from '@/lib/blog/queries'
 import type { ApiResponse, Post } from '@/lib/blog/types'
 
 export async function PUT(req: Request, { params }: { params: { id: string } }) {
@@ -26,9 +28,34 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
 }
 
 export async function DELETE(_req: Request, { params }: { params: { id: string } }) {
-  // Stub — implemented in Story 2.7
-  return NextResponse.json(
-    { data: null, error: 'Not implemented' } satisfies ApiResponse<null>,
-    { status: 501 }
-  )
+  const { userId } = await auth()
+  if (!userId) {
+    return NextResponse.json(
+      { data: null, error: 'Unauthorized' } satisfies ApiResponse<null>,
+      { status: 401 }
+    )
+  }
+
+  try {
+    const post = await getPostById(params.id)
+    if (!post) {
+      return NextResponse.json(
+        { data: null, error: 'Post not found' } satisfies ApiResponse<null>,
+        { status: 404 }
+      )
+    }
+
+    await deletePost(params.id)
+
+    revalidatePath('/blog')
+    revalidatePath(`/blog/${post.slug}`)
+
+    return NextResponse.json({ data: null, error: null } satisfies ApiResponse<null>)
+  } catch (err) {
+    console.error(`[DELETE /api/blog/posts/${params.id}]`, err)
+    return NextResponse.json(
+      { data: null, error: 'Failed to delete post' } satisfies ApiResponse<null>,
+      { status: 500 }
+    )
+  }
 }

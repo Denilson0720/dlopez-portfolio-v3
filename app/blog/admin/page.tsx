@@ -16,6 +16,19 @@ export default function AdminPage() {
   const [error, setError] = useState<string | null>(null)
   const [pinErrors, setPinErrors] = useState<Record<string, string>>({})
 
+  async function handleDelete(post: Post) {
+    const confirmed = window.confirm(`Delete "${post.title}"? This cannot be undone.`)
+    if (!confirmed) return
+    try {
+      const res = await fetch(`/api/blog/posts/${post.id}`, { method: 'DELETE' })
+      const json: ApiResponse<null> = await res.json()
+      if (json.error) throw new Error(json.error)
+      setPosts((prev) => prev.filter((p) => p.id !== post.id))
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Delete failed')
+    }
+  }
+
   async function handleTogglePin(post: Post) {
     setPinErrors((prev) => ({ ...prev, [post.id]: '' }))
     try {
@@ -137,6 +150,12 @@ export default function AdminPage() {
                   >
                     Edit
                   </Link>
+                  <button
+                    onClick={() => handleDelete(post)}
+                    className="text-sm text-red-400 hover:text-red-300 transition-colors"
+                  >
+                    Delete
+                  </button>
                 </div>
               </div>
             ))}
