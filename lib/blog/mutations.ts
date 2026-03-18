@@ -1,0 +1,72 @@
+import { createClient } from '@/lib/supabase/server'
+import { toPost } from '@/lib/blog/queries'
+import { ensureUniqueSlug, generateSlug } from '@/lib/blog/slug'
+import type { Post, PostCategory, PostStatus } from '@/lib/blog/types'
+import type { JSONContent } from '@tiptap/react'
+
+export interface CreatePostInput {
+  title: string
+  body: JSONContent
+  category: PostCategory
+  summary?: string | null
+  slug?: string
+  publishedAt?: string | null
+}
+
+export async function createPost(input: CreatePostInput): Promise<Post> {
+  const supabase = await createClient()
+  const baseSlug = input.slug?.trim() || generateSlug(input.title)
+  const slug = await ensureUniqueSlug(baseSlug)
+
+  const { data, error } = await supabase
+    .from('posts')
+    .insert({
+      title: input.title,
+      slug,
+      summary: input.summary ?? null,
+      body: input.body,
+      category: input.category,
+      status: 'draft' as PostStatus,
+      pinned: false,
+      published_at: input.publishedAt ?? null,
+    })
+    .select()
+    .single()
+
+  if (error || !data) throw new Error(error?.message ?? 'Insert failed')
+  return toPost(data)
+}
+
+export interface UpdatePostInput {
+  title?: string
+  body?: JSONContent
+  category?: PostCategory
+  summary?: string | null
+  slug?: string
+  publishedAt?: string | null
+}
+
+export async function updatePost(id: string, input: UpdatePostInput): Promise<Post> {
+  const supabase = await createClient()
+
+  const updates: Record<string, unknown> = {}
+  if (input.title !== undefined) updates.title = input.title
+  if (input.body !== undefined) updates.body = input.body
+  if (input.category !== undefined) updates.category = input.category
+  if (input.summary !== undefined) updates.summary = input.summary
+  if (input.publishedAt !== undefined) updates.published_at = input.publishedAt
+
+  if (input.slug !== undefined) {
+    updates.slug = await ensureUniqueSlug(generateSlug(input.slug), id)
+  }
+
+  const { data, error } = await supabase
+    .from('posts')
+    .update(updates)
+    .eq('id', id)
+    .select()
+    .single()
+
+  if (error || !data) throw new Error(error?.message ?? 'Update failed')
+  return toPost(data)
+}

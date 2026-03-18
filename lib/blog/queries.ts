@@ -74,6 +74,18 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
   return toPost(data as PostRow)
 }
 
+export async function getPostById(id: string): Promise<Post | null> {
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .from('posts')
+    .select('*')
+    .eq('id', id)
+    .single()
+
+  if (error || !data) return null
+  return toPost(data as PostRow)
+}
+
 export async function getAllPosts(): Promise<Post[]> {
   const supabase = await createClient()
   const { data, error } = await supabase
