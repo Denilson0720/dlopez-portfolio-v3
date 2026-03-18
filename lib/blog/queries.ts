@@ -73,3 +73,14 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
   if (error || !data) return null
   return toPost(data as PostRow)
 }
+
+export async function getAllPosts(): Promise<Post[]> {
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .from('posts')
+    .select('*')
+    .order('created_at', { ascending: false })
+
+  if (error) throw new Error(error.message)
+  return (data as PostRow[]).map(toPost)
+}

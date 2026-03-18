@@ -1,0 +1,98 @@
+'use client'
+
+import { useEffect, useState } from 'react'
+import Link from 'next/link'
+import type { Post } from '@/lib/blog/types'
+import type { ApiResponse } from '@/lib/blog/types'
+
+function formatDate(iso: string | null): string {
+  if (!iso) return '—'
+  return new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(new Date(iso))
+}
+
+export default function AdminPage() {
+  const [posts, setPosts] = useState<Post[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    async function fetchPosts() {
+      try {
+        const res = await fetch('/api/blog/posts')
+        const json: ApiResponse<Post[]> = await res.json()
+        if (json.error) throw new Error(json.error)
+        setPosts(json.data ?? [])
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to load posts')
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    fetchPosts()
+  }, [])
+
+  return (
+    <main className="min-h-screen bg-black text-white p-8">
+      <div className="max-w-4xl mx-auto">
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-2xl font-bold">Blog Admin</h1>
+          <Link
+            href="/blog/admin/new"
+            className="bg-white text-black text-sm font-medium px-4 py-2 rounded hover:bg-gray-200 transition-colors"
+          >
+            New Post
+          </Link>
+        </div>
+
+        {isLoading && (
+          <p className="text-gray-400">Loading posts...</p>
+        )}
+
+        {error && (
+          <p className="text-red-400">{error}</p>
+        )}
+
+        {!isLoading && !error && posts.length === 0 && (
+          <p className="text-gray-400">No posts yet. Create your first post!</p>
+        )}
+
+        {!isLoading && !error && posts.length > 0 && (
+          <div className="space-y-0 border border-gray-800 rounded-lg overflow-hidden">
+            {posts.map((post) => (
+              <div
+                key={post.id}
+                className="flex items-center gap-4 px-6 py-4 border-b border-gray-800 last:border-b-0 hover:bg-gray-900/50 transition-colors"
+              >
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="font-medium text-white truncate">{post.title}</span>
+                    {post.pinned && <span className="text-base" title="Pinned">📌</span>}
+                  </div>
+                  <div className="flex items-center gap-3 text-sm text-gray-400">
+                    <span
+                      className={
+                        post.status === 'published'
+                          ? 'bg-green-900/50 text-green-300 text-xs px-2 py-0.5 rounded'
+                          : 'bg-yellow-900/50 text-yellow-300 text-xs px-2 py-0.5 rounded'
+                      }
+                    >
+                      {post.status === 'published' ? 'Published' : 'Draft'}
+                    </span>
+                    <span className="capitalize">{post.category}</span>
+                    <span>{formatDate(post.publishedAt)}</span>
+                  </div>
+                </div>
+                <Link
+                  href={`/blog/admin/${post.id}/edit`}
+                  className="text-sm text-gray-400 hover:text-white transition-colors shrink-0"
+                >
+                  Edit
+                </Link>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </main>
+  )
+}
