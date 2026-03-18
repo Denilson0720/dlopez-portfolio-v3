@@ -14,6 +14,20 @@ export default function AdminPage() {
   const [posts, setPosts] = useState<Post[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [pinErrors, setPinErrors] = useState<Record<string, string>>({})
+
+  async function handleTogglePin(post: Post) {
+    setPinErrors((prev) => ({ ...prev, [post.id]: '' }))
+    try {
+      const res = await fetch(`/api/blog/posts/${post.id}/pin`, { method: 'PATCH' })
+      const json: ApiResponse<Post> = await res.json()
+      if (json.error) throw new Error(json.error)
+      setPosts((prev) => prev.map((p) => (p.id === post.id ? json.data! : p)))
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : 'Pin toggle failed'
+      setPinErrors((prev) => ({ ...prev, [post.id]: msg }))
+    }
+  }
 
   async function handleTogglePublish(post: Post) {
     try {
@@ -92,8 +106,21 @@ export default function AdminPage() {
                     <span className="capitalize">{post.category}</span>
                     <span>{formatDate(post.publishedAt)}</span>
                   </div>
+                  {pinErrors[post.id] && (
+                    <p className="text-red-400 text-xs mt-1">{pinErrors[post.id]}</p>
+                  )}
                 </div>
                 <div className="flex items-center gap-3 shrink-0">
+                  <button
+                    onClick={() => handleTogglePin(post)}
+                    className={`text-xs px-3 py-1 rounded font-medium transition-colors ${
+                      post.pinned
+                        ? 'bg-blue-900/50 text-blue-300 hover:bg-blue-800/50'
+                        : 'text-gray-400 hover:text-white border border-gray-700 hover:border-gray-500'
+                    }`}
+                  >
+                    {post.pinned ? '📌 Unpin' : 'Pin'}
+                  </button>
                   <button
                     onClick={() => handleTogglePublish(post)}
                     className={`text-xs px-3 py-1 rounded font-medium transition-colors ${

@@ -89,3 +89,34 @@ export async function togglePublish(id: string, currentStatus: PostStatus): Prom
   if (error || !data) throw new Error(error?.message ?? 'Toggle failed')
   return toPost(data)
 }
+
+export class PinLimitError extends Error {
+  constructor() {
+    super('Maximum 2 posts can be pinned. Unpin one first.')
+    this.name = 'PinLimitError'
+  }
+}
+
+export async function togglePin(id: string, currentPinned: boolean): Promise<Post> {
+  const supabase = await createClient()
+
+  if (!currentPinned) {
+    const { count, error: countError } = await supabase
+      .from('posts')
+      .select('*', { count: 'exact', head: true })
+      .eq('pinned', true)
+
+    if (countError) throw new Error(countError.message)
+    if ((count ?? 0) >= 2) throw new PinLimitError()
+  }
+
+  const { data, error } = await supabase
+    .from('posts')
+    .update({ pinned: !currentPinned })
+    .eq('id', id)
+    .select()
+    .single()
+
+  if (error || !data) throw new Error(error?.message ?? 'Pin update failed')
+  return toPost(data)
+}
