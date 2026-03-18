@@ -15,6 +15,17 @@ export default function AdminPage() {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
+  async function handleTogglePublish(post: Post) {
+    try {
+      const res = await fetch(`/api/blog/posts/${post.id}/publish`, { method: 'PATCH' })
+      const json: ApiResponse<Post> = await res.json()
+      if (json.error) throw new Error(json.error)
+      setPosts((prev) => prev.map((p) => (p.id === post.id ? json.data! : p)))
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Publish toggle failed')
+    }
+  }
+
   useEffect(() => {
     async function fetchPosts() {
       try {
@@ -82,12 +93,24 @@ export default function AdminPage() {
                     <span>{formatDate(post.publishedAt)}</span>
                   </div>
                 </div>
-                <Link
-                  href={`/blog/admin/${post.id}/edit`}
-                  className="text-sm text-gray-400 hover:text-white transition-colors shrink-0"
-                >
-                  Edit
-                </Link>
+                <div className="flex items-center gap-3 shrink-0">
+                  <button
+                    onClick={() => handleTogglePublish(post)}
+                    className={`text-xs px-3 py-1 rounded font-medium transition-colors ${
+                      post.status === 'published'
+                        ? 'bg-yellow-900/50 text-yellow-300 hover:bg-yellow-800/50'
+                        : 'bg-green-900/50 text-green-300 hover:bg-green-800/50'
+                    }`}
+                  >
+                    {post.status === 'published' ? 'Unpublish' : 'Publish'}
+                  </button>
+                  <Link
+                    href={`/blog/admin/${post.id}/edit`}
+                    className="text-sm text-gray-400 hover:text-white transition-colors"
+                  >
+                    Edit
+                  </Link>
+                </div>
               </div>
             ))}
           </div>

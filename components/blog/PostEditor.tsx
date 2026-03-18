@@ -30,6 +30,7 @@ export default function PostEditor({ post }: PostEditorProps) {
   const [category, setCategory] = useState<PostCategory>(post?.category ?? 'tech')
   const [slug, setSlug] = useState(post?.slug ?? '')
   const [isSlugManual, setIsSlugManual] = useState(!!post)
+  const [publishedAt, setPublishedAt] = useState<string | null>(post?.publishedAt ?? null)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -61,6 +62,22 @@ export default function PostEditor({ post }: PostEditorProps) {
     }
   }
 
+  async function handlePublishToggle() {
+    if (!post) return
+    setIsLoading(true)
+    setError(null)
+    try {
+      const res = await fetch(`/api/blog/posts/${post.id}/publish`, { method: 'PATCH' })
+      const json: ApiResponse<Post> = await res.json()
+      if (json.error) throw new Error(json.error)
+      router.push('/blog/admin')
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Something went wrong')
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
   async function handleSave() {
     if (!editor) return
     setIsLoading(true)
@@ -72,6 +89,7 @@ export default function PostEditor({ post }: PostEditorProps) {
         category,
         slug: slug || undefined,
         body: editor.getJSON(),
+        publishedAt: publishedAt || null,
       }
 
       const url = isEditMode ? `/api/blog/posts/${post.id}` : '/api/blog/posts'
@@ -162,6 +180,22 @@ export default function PostEditor({ post }: PostEditorProps) {
             </select>
           </div>
 
+          {/* Publish Date */}
+          <div>
+            <label className="block text-sm text-gray-400 mb-1">Publish Date (optional)</label>
+            <input
+              type="datetime-local"
+              value={publishedAt ? publishedAt.slice(0, 16) : ''}
+              onChange={(e) =>
+                setPublishedAt(e.target.value ? new Date(e.target.value).toISOString() : null)
+              }
+              className={inputClass}
+            />
+            <p className="text-xs text-gray-500 mt-1">
+              Leave empty to use current time when publishing
+            </p>
+          </div>
+
           {/* Body */}
           <div>
             <label className="block text-sm text-gray-400 mb-1">Content *</label>
@@ -236,6 +270,19 @@ export default function PostEditor({ post }: PostEditorProps) {
             >
               {isLoading ? 'Saving...' : isEditMode ? 'Save Changes' : 'Save as Draft'}
             </button>
+            {isEditMode && post && (
+              <button
+                onClick={handlePublishToggle}
+                disabled={isLoading}
+                className={`px-4 py-2 rounded text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed ${
+                  post.status === 'published'
+                    ? 'bg-yellow-700 hover:bg-yellow-600 text-white'
+                    : 'bg-green-700 hover:bg-green-600 text-white'
+                }`}
+              >
+                {post.status === 'published' ? 'Unpublish' : 'Publish'}
+              </button>
+            )}
           </div>
         </div>
       </div>

@@ -70,3 +70,22 @@ export async function updatePost(id: string, input: UpdatePostInput): Promise<Po
   if (error || !data) throw new Error(error?.message ?? 'Update failed')
   return toPost(data)
 }
+
+export async function togglePublish(id: string, currentStatus: PostStatus): Promise<Post> {
+  const supabase = await createClient()
+
+  const updates =
+    currentStatus === 'draft'
+      ? { status: 'published' as PostStatus, published_at: new Date().toISOString() }
+      : { status: 'draft' as PostStatus, published_at: null }
+
+  const { data, error } = await supabase
+    .from('posts')
+    .update(updates)
+    .eq('id', id)
+    .select()
+    .single()
+
+  if (error || !data) throw new Error(error?.message ?? 'Toggle failed')
+  return toPost(data)
+}
