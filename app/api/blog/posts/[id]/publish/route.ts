@@ -7,8 +7,9 @@ import type { ApiResponse, Post } from '@/lib/blog/types'
 
 export async function PATCH(
   _req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params
   const { userId } = await auth()
   if (!userId) {
     return NextResponse.json(
@@ -18,7 +19,7 @@ export async function PATCH(
   }
 
   try {
-    const post = await getPostById(params.id)
+    const post = await getPostById(id)
     if (!post) {
       return NextResponse.json(
         { data: null, error: 'Post not found' } satisfies ApiResponse<null>,
@@ -26,14 +27,14 @@ export async function PATCH(
       )
     }
 
-    const updated = await togglePublish(params.id, post.status)
+    const updated = await togglePublish(id, post.status)
 
     revalidatePath('/blog')
     revalidatePath(`/blog/${post.slug}`)
 
     return NextResponse.json({ data: updated, error: null } satisfies ApiResponse<Post>)
   } catch (err) {
-    console.error(`[PATCH /api/blog/posts/${params.id}/publish]`, err)
+    console.error(`[PATCH /api/blog/posts/${id}/publish]`, err)
     return NextResponse.json(
       { data: null, error: 'Failed to toggle publish status' } satisfies ApiResponse<null>,
       { status: 500 }

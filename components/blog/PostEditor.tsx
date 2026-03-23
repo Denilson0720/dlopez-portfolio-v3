@@ -37,6 +37,7 @@ export default function PostEditor({ post }: PostEditorProps) {
   const editor = useEditor({
     extensions: editorExtensions,
     content: post?.body ?? '',
+    immediatelyRender: false,
     editorProps: {
       attributes: {
         class: 'min-h-[300px] p-4 focus:outline-none text-gray-300 leading-relaxed',

@@ -7,8 +7,9 @@ import type { ApiResponse, Post } from '@/lib/blog/types'
 
 export async function PATCH(
   _req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params
   const { userId } = await auth()
   if (!userId) {
     return NextResponse.json(
@@ -18,7 +19,7 @@ export async function PATCH(
   }
 
   try {
-    const post = await getPostById(params.id)
+    const post = await getPostById(id)
     if (!post) {
       return NextResponse.json(
         { data: null, error: 'Post not found' } satisfies ApiResponse<null>,
@@ -26,7 +27,7 @@ export async function PATCH(
       )
     }
 
-    const updated = await togglePin(params.id, post.pinned)
+    const updated = await togglePin(id, post.pinned)
     revalidatePath('/blog')
 
     return NextResponse.json({ data: updated, error: null } satisfies ApiResponse<Post>)
@@ -37,7 +38,7 @@ export async function PATCH(
         { status: 409 }
       )
     }
-    console.error(`[PATCH /api/blog/posts/${params.id}/pin]`, err)
+    console.error(`[PATCH /api/blog/posts/${id}/pin]`, err)
     return NextResponse.json(
       { data: null, error: 'Failed to toggle pin' } satisfies ApiResponse<null>,
       { status: 500 }
